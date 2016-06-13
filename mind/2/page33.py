@@ -7,5 +7,8 @@ for item in recommendations.critics :
     for value in recommendations.critics :
         if item == value : continue
         print(value)
-        result = recommendations.sim_distance(recommendations.critics, item, value)
+        result = recommendations.sim_pearson(recommendations.critics, item, value)
         print(result)
+print('-------')
+result = recommendations.sim_pearson(recommendations.critics, 'Lisa Rose', 'Gene Seymour')
+print(result)

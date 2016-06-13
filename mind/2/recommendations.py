@@ -47,7 +47,7 @@ critics = {'Lisa Rose' : {'Lady in the Water' : 2.5,
            }
 
 def sim_distance(prefs, person1, person2) :
-    # получитить список предметов оцененных обоими
+    # получить список предметов оцененных обоими
     si = {}
     for item in prefs[person1] :
         if item in prefs[person2] :
@@ -59,3 +59,36 @@ def sim_distance(prefs, person1, person2) :
     sum_of_squares = sum([pow(prefs[person1][item] - prefs[person2][item], 2) for item in prefs[person1] if item in prefs[person2]])
 
     return 1./(1. + sum_of_squares )
+
+
+def sim_pearson(prefs, person1, person2) :
+    # получить список предметов оцененных обоими
+    si = {}
+    for item in prefs[person1]:
+        if item in prefs[person2]:
+            si[item] = 1
+
+    n = len(si)
+
+    # если нет общих оценок то возвращаем 0
+    if n == 0: return 0
+
+    # Вычислить сумму всех предпочтений
+    sum1 = sum(prefs[person1][item] for item in si)
+    sum2 = sum(prefs[person2][item] for item in si)
+
+    # Вычислить сумму квадратов
+    sum1Sq = sum(pow(prefs[person1][item], 2) for item in si)
+    sum2Sq = sum(pow(prefs[person2][item], 2) for item in si)
+
+    # сума произведений
+    pSum = sum(prefs[person1][item] * prefs[person2][item] for item in si)
+
+    # коэф-т Пирсона
+    num = pSum - (sum1 * sum2/n)
+    den = sqrt((sum1Sq - pow(sum1,2)/n)*(sum2Sq - pow(sum2,2)/n))
+    if den == 0 : return 0
+
+    r = num / den
+
+    return r
