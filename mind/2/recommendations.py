@@ -81,7 +81,7 @@ def sim_pearson(prefs, person1, person2) :
     sum1Sq = sum(pow(prefs[person1][item], 2) for item in si)
     sum2Sq = sum(pow(prefs[person2][item], 2) for item in si)
 
-    # сума произведений
+    # сумма произведений
     pSum = sum(prefs[person1][item] * prefs[person2][item] for item in si)
 
     # коэф-т Пирсона
@@ -101,3 +101,32 @@ def topMatches(prefs, person, n = 5, similarity = sim_pearson) :
     scores.reverse()
 
     return scores[0:n]
+
+def getRecomendations(prefs, person, other, similarity = sim_pearson) :
+
+    totals = {}
+    simSums = {}
+
+    for other in prefs :
+        # сравнивать с собой не нужно
+        if other == person : continue
+        sim = similarity(prefs, person, other)
+        # игнорировать нулевые и отрицательные оценки
+        if sim <= 0: continue
+
+        for item in prefs[other] :
+
+            if item not in prefs[person] or prefs[person][item] == 0 :
+                totals.setdefault(item, 0) #коэф-т подобия * Оценка
+                totals[item] +=prefs[other][item]*sim
+                #Сумма коэф-тов подобия
+                simSums.setdefault(item, 0)
+                simSums[item] +=sim
+
+    # Создать нормализованный список
+    rankings = [(total/simSums[item], item) for item,total in totals.items() ]
+
+    rankings.sort()
+    rankings.reverse()
+
+    return rankings
