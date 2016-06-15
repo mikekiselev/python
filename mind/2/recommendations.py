@@ -102,7 +102,7 @@ def topMatches(prefs, person, n = 5, similarity = sim_pearson) :
 
     return scores[0:n]
 
-def getRecomendations(prefs, person, other, similarity = sim_pearson) :
+def getRecommendations(prefs, person, similarity = sim_pearson) :
 
     totals = {}
     simSums = {}
