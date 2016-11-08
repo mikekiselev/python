@@ -130,3 +130,14 @@ def getRecommendations(prefs, person, similarity = sim_pearson) :
     rankings.reverse()
 
     return rankings
+
+def transformPrefs(prefs) :
+    result ={}
+    for person in prefs:
+        for item in prefs[person]:
+            result.setdefault(item, {})
+
+            # Поменять местами человека и предмет
+            result[item][person] = prefs[person][item]
+
+    return result
