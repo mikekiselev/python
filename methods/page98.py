@@ -14,11 +14,17 @@ def Plot(x, y, label, figure, line) :
 
 
 x = np.linspace(-1., 1., 100)
-y1 = np.sin(2*np.pi*x)
-y2 = x**2
+y1 = spec.chebyt(1)(x)
+Plot(x, y1, '$T_1(x)$', 1,'-')
 
-Plot(x, y1, '$sin(2*pi*x)$', 1, 'r')
-Plot(x, y2, '$x^2$', 2, 'd')
+y2 = spec.chebyt(2)(x)
+Plot(x, y2, '$T_2(x)$', 1,'--')
+
+y3 = spec.chebyt(3)(x)
+Plot(x, y3, '$T_3(x)$', 1,'-.')
+
+y4 = spec.chebyt(4)(x)
+Plot(x, y4, '$T_4(x)$', 1,':')
 
 plt.show()
 
